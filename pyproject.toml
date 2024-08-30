@@ -1,0 +1,10 @@
+[project]
+name = "probabilistic-random-surfer"
+version = "0.1.0"
+description = "Random Surfer with non-uniform probabilities for link jumps"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "ruff>=0.6.3",
+    "mypy>=1.11.2",
+]
