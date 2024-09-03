@@ -1,6 +1,6 @@
-import click
+import click  # type: ignore
 import logging
-from prob_surfer.html import get_url_data_as_html
+from prob_surfer.parsing.html import get_url_data_as_html
 
 logging.basicConfig(
     level=logging.DEBUG,
