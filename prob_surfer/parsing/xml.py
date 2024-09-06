@@ -28,7 +28,7 @@ def html_data_as_xml_db(html_data: str) -> XmlNodeDB:
     """
     root = html_data_as_lxml_tree(html_data)
     xml_db = _lxml_tree_to_xml_db(root)
-    assert xml_db is not None, f"Failed parsing the given url as xml db"
+    assert xml_db is not None, "Failed parsing the given url as xml db"
     return xml_db
 
 

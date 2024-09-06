@@ -1,6 +1,8 @@
+from pprint import pprint
 import click  # type: ignore
 import logging
 from prob_surfer import tree_utils
+from prob_surfer.links import get_out_links_probabilities
 from prob_surfer.parsing.html import get_url_data_as_html
 from prob_surfer.parsing.xml import (
     html_data_as_lxml_tree,
@@ -20,10 +22,11 @@ logger = logging.getLogger(__name__)
 
 @click.command()
 @click.option("--url", default="https://en.wikipedia.org/wiki/Random_surfing_model")
-@click.option("--only-print", is_flag=True)
 @click.option("--save-html", is_flag=True)
 @click.option("--save-xml", is_flag=True)
-def main(url: str, only_print: bool, save_html: bool, save_xml: bool):
+@click.option("--only-print", is_flag=True)
+@click.option("--strategy", type=str, default="uniform")
+def main(url: str, only_print: bool, save_html: bool, save_xml: bool, strategy: str):
 
     if save_html:
         html_data = get_url_data_as_html(url)
@@ -46,7 +49,8 @@ def main(url: str, only_print: bool, save_html: bool, save_xml: bool):
         tree_utils.print_tree(db)
         return
 
-    # get_out_links_probabilities(root)
+    links_probas = get_out_links_probabilities(db, strategy)
+    pprint(links_probas)
 
 
 if __name__ == "__main__":
