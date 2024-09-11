@@ -16,6 +16,8 @@ def _get_all_out_links(db: XmlNodeDB) -> Set[str]:
 def get_out_links_probabilities(db: XmlNodeDB, strategy: str) -> Dict[str, float]:
     if strategy == "uniform":
         all_links = _get_all_out_links(db)
+        if len(all_links) == 0:
+            return {}
         prob_each = 1.0 / len(all_links)
         return {link: prob_each for link in all_links}
     elif strategy == "automata":

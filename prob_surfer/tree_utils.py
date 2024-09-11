@@ -26,7 +26,7 @@ def print_tree(root: XmlNodeDB, curr_depth: int = 0, maxdepth: Optional[int] = N
         print_tree(node, curr_depth + 1)
 
 
-def get_url_as_xml_db(url: str) -> XmlNodeDB:
+def get_url_as_xml_db(url: str, xpath_filter: Optional[str] = None) -> XmlNodeDB:
     html_data = get_url_data_as_html(url)
-    xml_db = html_data_as_xml_db(html_data)
+    xml_db = html_data_as_xml_db(html_data, xpath_filter=xpath_filter)
     return xml_db
