@@ -12,8 +12,8 @@ def _print_node(node: XmlNodeDB, curr_depth: int):
     prefix = "  " * curr_depth
     num_children = len(node.children)
     print(
-        f"{prefix}{node.tag: >10} | {num_children:>4} children | "
-        f"{len(node.text):>6} len text | {len(node.attributes):>2} attributes"
+        f"{prefix}{node.node.tag: >10} | {num_children:>4} children | "
+        f"{len(node.node.text):>6} len text | {len(node.node.attributes):>2} attributes"
     )
 
 

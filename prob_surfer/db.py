@@ -4,14 +4,19 @@ from typing import Dict, List, Optional
 
 
 @dataclass
-class XmlNodeDB:
+class XmlNode:
     tag: str
     attributes: Dict[str, str]
     text: str
+
+
+@dataclass
+class XmlNodeDB:
+    node: XmlNode
     children: List[XmlNodeDB]
 
     def is_leaf(self) -> bool:
         return len(self.children) == 0
 
     def get_link(self) -> Optional[str]:
-        return self.attributes.get("href")
+        return self.node.attributes.get("href")

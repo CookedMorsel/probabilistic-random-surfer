@@ -1,7 +1,7 @@
 from typing import Any, Optional
 from lxml import html, etree  # type: ignore
 import logging
-from ..db import XmlNodeDB
+from ..db import XmlNode, XmlNodeDB
 
 logger = logging.getLogger(__name__)
 
@@ -78,8 +78,10 @@ def _lxml_tree_to_xml_db(root) -> Optional[XmlNodeDB]:
             children.append(child_xml_db)
 
     return XmlNodeDB(
-        tag=tag,
-        attributes=attributes,
-        text=text,
+        node=XmlNode(
+            tag=tag,
+            attributes=attributes,
+            text=text,
+        ),
         children=children,
     )
