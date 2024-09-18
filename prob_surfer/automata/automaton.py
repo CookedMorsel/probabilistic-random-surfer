@@ -1,9 +1,11 @@
 from abc import abstractmethod, ABC
+from dataclasses import dataclass
 from typing import Dict, List
 
 from ..db import XmlNode
 
 
+@dataclass
 class AutomataNodeState:
     url_probas: Dict[str, float]
 

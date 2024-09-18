@@ -9,6 +9,9 @@ class XmlNode:
     attributes: Dict[str, str]
     text: str
 
+    def get_link(self) -> Optional[str]:
+        return self.attributes.get("href")
+
 
 @dataclass
 class XmlNodeDB:
@@ -19,4 +22,4 @@ class XmlNodeDB:
         return len(self.children) == 0
 
     def get_link(self) -> Optional[str]:
-        return self.node.attributes.get("href")
+        return self.node.get_link()
