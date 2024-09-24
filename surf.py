@@ -25,9 +25,27 @@ logger = logging.getLogger(__name__)
 @click.option("--url", default="https://en.wikipedia.org/wiki/Random_surfing_model")
 @click.option("--save-html", is_flag=True)
 @click.option("--save-xml", is_flag=True)
-@click.option("--only-print", is_flag=True)
-@click.option("--strategy", type=str, default="uniform")
-@click.option("--xpath", type=str, default=None)
+@click.option(
+    "--only-print", is_flag=True, help="Only print the XML db to screen and exit."
+)
+@click.option(
+    "--strategy",
+    type=str,
+    default="uniform",
+    help="Strategy of probability selection.",
+)
+@click.option(
+    "--xpath",
+    type=str,
+    default=None,
+    help="Optional XPath query for filtering the XML db before computing out link probabilities.",
+)
+@click.option(
+    "--automaton",
+    type=str,
+    default=None,
+    help="Automaton type, only valid when strategy='automaton'. ",
+)
 def main(
     url: str,
     only_print: bool,
@@ -35,6 +53,7 @@ def main(
     save_xml: bool,
     strategy: str,
     xpath: Optional[str],
+    automaton: Optional[str],
 ):
 
     if save_html:
@@ -58,7 +77,7 @@ def main(
         tree_utils.print_tree(db)
         return
 
-    links_probas = get_out_links_probabilities(db, strategy)
+    links_probas = get_out_links_probabilities(db, strategy, automaton_str=automaton)
     pprint(links_probas)
 
 

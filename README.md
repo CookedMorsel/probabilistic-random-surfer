@@ -18,6 +18,10 @@ In the classical [random surfer model](https://www.cs.cmu.edu/~avrim/Papers/webg
 * Select all links under div's which have an attribute of 'class' which is equal to 'mw-body-content':
 `python surf.py --url https://en.wikipedia.org/wiki/Random_surfing_model --strategy uniform --xpath /html/body//div[@class='mw-body-content']`
 
+#### Defining and using custom automatons:
+1. To implement a new automaton, create a class that derives from `BottomUpTreeAutomaton` and implement the abstract `delta()` method. See `ExponentialDepthAutomaton` for an example. After implementation, add an alias mapping to your automaton type in `automata/__init__.py`.
+2. Run it: (replace `exponential_depth` by your automaton alias)
+`python surf.py --url https://en.wikipedia.org/wiki/Random_surfing_model --strategy automaton --automaton exponential_depth`
 
 ### Defining automatas
 In order to make bottom up tree automatas work in this project, we use a slightly different notation for them. We define a non-deterministic tree automaton as a set $(\Sigma, Q, \Delta)$ where $\Sigma$ is our fixed alphabet of all possible urls (represented as a string), $Q$ is a set of states defined by the automaton, and $\Delta: (\Sigma \times [Q, ...])\rightarrow Q$ is a state transition function for nodes, mapping a node with any given number of children states $[0, \infty)$ to a new state $Q$ in a non-deterministic manner (for leaves, this function is just called with 0 children states instead of defining another $\Delta_0$ or $\Delta$ _leaf function). For optimization purposes, the automaton actaully returns a list of possible output states instead of choosing one randomly.

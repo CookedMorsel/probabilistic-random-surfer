@@ -40,11 +40,18 @@ class ExponentialDepthAutomaton(BottomUpTreeAutomaton):
 
             for child_state in non_empty_children_states:
                 for link, proba in child_state.url_probas.items():
-                    url_probas[link] = proba / n  # Each child gets weight 1/n
+                    if link not in url_probas:
+                        url_probas[link] = 0.0
+                    url_probas[link] += proba / n  # Each child gets weight 1/n
+                    # Important to perform addition instead of assignment in case the same link
+                    # appears in multiple children
 
-        assert (
-            # round to avoid numeric errors
-            round(sum(url_probas.values()), 6)
-            == 1.0
-        ), f"bugged computation: {sum(url_probas.values())}, {url_probas}"
+        if len(url_probas) > 0:
+            # This check is highly recommended when implementing your own
+            # automaton, to avoid implementation bugs
+            assert (
+                # round to avoid numeric errors
+                round(sum(url_probas.values()), 6)
+                == 1.0
+            ), f"bugged computation: {sum(url_probas.values())}, {url_probas}"
         return AutomataNodeState(url_probas)
