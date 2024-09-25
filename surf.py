@@ -78,7 +78,9 @@ def main(
         return
 
     links_probas = get_out_links_probabilities(db, strategy, automaton_str=automaton)
-    pprint(links_probas)
+    probas_res = list(links_probas.items())
+    probas_res.sort(key=lambda x: x[1])
+    pprint(probas_res)
 
 
 if __name__ == "__main__":
