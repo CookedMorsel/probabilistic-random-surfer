@@ -31,14 +31,19 @@ This is equivalent to the naive approach in the classical random surfer model.
 > XPath usage could be extremely useful for filtering key parts in large web pages, like headers, div with key classes, footers, etc. 
 
 ### Use bottom-up tree automatas to perform complex probability computations:
-* Select all links in the header, give them probabilities corresponding to how "deep" they appear in the XML db:
+* Select all links in the header, give them probabilities corresponding to how "deep" they appear in the XML db (See the `ExponentialDepthAutomaton` class for a more in-depth explanation):
 
 `python surf.py --url https://docs.pola.rs/api/python/stable/reference/index.html --strategy automaton --automaton exponential_depth --xpath //header`
 
 You will notice that some links get much higher probabilities, e.g. the home page & docs get the highest probabilities, and twitter / github links get lower probabilities.
 
-* Another automaton example (laxy one) TODO
+* Assume the user is "lazy", and is inclined to choose one of the links appearing first:
 
+`python surf.py --url https://docs.pola.rs/api/python/stable/reference/index.html --strategy automaton --automaton lazy_top_3 --xpath //header`
+
+Compared with the exponential depth automaton, this automaton gives generally higher probabilities for links with probabilities greater than 0, and the probabilities are more varied (for example, unlinkely to see 300 links each with probability 0.00333333).
+
+Although it's true the automata presented here are quite simple, they demonstrate the flexibility and expressive power provided with using bottom-up tree automata.
 
 
 ## Theoretical automata definition
@@ -53,9 +58,9 @@ Because the automatas $\Delta$ returns a list of states instead of a single stat
 
 The exponential depth automaton assumes links which appear in more global, "shallow" nodes in the XML tree are more likely to be surfed to. The automaton defines the state set $Q$ as all mappings between strings and floats, resembling link probabilities. It implements $\Delta$ by giving equal weights to its direct children, resulting in an exponential decay in probabilities for its descendents, depending on their relative depth from the root node.
 
-### **LazyClickerAutomaton**
+### **LazyTop3Automaton**
 
-TODO description
+The lazy top 3 automaton assumes the user is inclined to choose links which appear first, because he sees that first. Selects the first link with probability 0.5, the 2nd with 0.3, and 3rd with 0.2. Links appearing with children index 4+ have probability 0, since they are too far away. In case a given XML node has less than 3 children, the probabilities are normalized so that their sum is equal to 1. For example, with 2 children, the probabilities are normalized by 0.5+0.3=0.8.
 
 ## Implementation & usage of custom automatons:
 1. To implement a new automaton, create a class that derives from `BottomUpTreeAutomaton` and implement the abstract `delta()` $\Delta: (\Sigma \times [Q, ...])\rightarrow Q$, the state transition method. See `ExponentialDepthAutomaton` for an example. After implementation, add an alias mapping to your automaton type in `automata/__init__.py`.
