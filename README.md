@@ -4,7 +4,11 @@ In the classical [random surfer model](https://www.cs.cmu.edu/~avrim/Papers/webg
 
 ## Quickstart:
 
-TODO python env installation, etc.
+> Required Python 3.9+!
+1. `git clone https://github.com/CookedMorsel/probabilistic-random-surfer.git`
+2. `cd probabilistic-random-surfer`
+3. `pip install .` (a clean virtual environment is recommended)
+4. Try using it: `python surf.py --url https://docs.pola.rs/api/python/stable/reference/index.html --strategy automaton --automaton lazy_top_3 --xpath //header`
 
 ## Usage examples:
 
@@ -12,15 +16,19 @@ TODO python env installation, etc.
 
 `python surf.py --save-html --save-xml --url https://en.wikipedia.org/wiki/Random_surfing_model --only-print`
 
+This is useful when you wish to manually expore the XML DB produced for some site.
+
 * Print out link probabilities for a given site, with uniform probabilities:
 
 `python surf.py --url https://en.wikipedia.org/wiki/Random_surfing_model --strategy uniform`
 
 This is equivalent to the naive approach in the classical random surfer model.
 
-#### Use XPath expressions to select a subset of the db:
+### Use XPath expressions to select a subset of the db:
 
-* Select all links under 'head', give each one uniform probability:
+> Important!! Some terminals such as PowerShell can cause unexpected errors in complex XPath queries due to the way the perform escaping on characters such as `'` and `"`. Keep this in mind when using XPath queries, and for minimal friction use a simpler terminal such as batch on windows, or bash on unix.
+
+* Select all links under 'head' with uniform probability:
 
 `python surf.py --url https://en.wikipedia.org/wiki/Random_surfing_model --strategy uniform --xpath /html/head`
 
